@@ -1,3 +1,4 @@
+import React from 'react';
 import { MdDeleteForever } from "react-icons/md";
 import { MdEditNote } from "react-icons/md"
 import icon_kick from "../images/icon_kick.png";
