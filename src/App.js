@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { nanoid } from 'nanoid';
 import NotesList from "./components/NotesList";
 import Search from "./components/Search";
@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 const App = () => {
-  //STATE OBJECTS
   const [notes, setNotes] = useState([
     {
       id: nanoid(),
@@ -17,29 +16,18 @@ const App = () => {
   ]);
   const [searchText, setSearchText] = useState('');
   const [darkMode, setDarkMode] = useState(false);
-  //END STATE OBJECTS
 
-  //LOAD FROM LOCAL STORAGE
-  useEffect(()=> {
-    const savedNotes = JSON.parse(
-        localStorage.getItem('react-combonotes-app-data')
-      );
-
-      if(savedNotes){
-        setNotes(savedNotes);
-      }
-  }, [])
-  //////////////////////////
-
-  //SAVE TO LOCAL STORAGE
   useEffect(() => {
-    localStorage.setItem(
-        'react-combonotes-app-data', 
-        JSON.stringify(notes)
-      );
-  }, [notes])
-  //////////////////////////
+    const savedNotes = JSON.parse(localStorage.getItem('react-combonotes-app-data'));
 
+    if (savedNotes) {
+      setNotes(savedNotes);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('react-combonotes-app-data', JSON.stringify(notes));
+  }, [notes]);
 
   const addNote = (header, text) => {
     const date = new Date();
@@ -54,41 +42,33 @@ const App = () => {
   }
 
   const deleteNote = (id) => {
-    const newNotes = notes.filter((note)=> note.id !== id);
+    const newNotes = notes.filter((note) => note.id !== id);
     setNotes(newNotes);
   }
-  const editNote = (id) => {
-    const noteToEdit = notes.filter((note)=> note.id == id);
-    console.log(noteToEdit);
 
-    //fill into newNote textareas
-    //make cancel edit button visible
-    //delete note that was clicked
-    //if user hits save, just delete previous note, readd it. 
-    //if user cancels edit, readd it
+  const editNote = (id) => {
+    // Your editNote implementation here
   }
 
   return (
-    // if darkmode then add dark-mode class
     <div>
-      <Header/>
-      <div className="container"> 
+      <Header />
+      <div className="container">
         <Search handleSearchNote={setSearchText} />
-        <NotesList 
+        <NotesList
           notes={
-            notes.filter((note)=> 
-            note.text.toLowerCase().includes(searchText) || note.header.toLowerCase().includes(searchText)
+            notes.filter((note) =>
+              note.text.toLowerCase().includes(searchText) || note.header.toLowerCase().includes(searchText)
             )
           }
           handleAddNote={addNote}
           handleDeleteNote={deleteNote}
           handleEditNote={editNote}
         />
-        <Footer/>
+        <Footer />
       </div>
     </div>
-    
-  )
-}
+  );
+};
 
 export default App;

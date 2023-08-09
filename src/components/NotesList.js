@@ -1,5 +1,6 @@
 import AddNote from "./AddNote";
 import Note from "./Note";
+import React, { useState } from "react";
 
 const NotesList = ({ notes, handleAddNote, handleDeleteNote, handleEditNote }) => {
     return ( 
